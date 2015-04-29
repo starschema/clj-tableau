@@ -1,5 +1,5 @@
 (ns clj-tableau.dataextract
-  (:import (com.tableausoftware.DataExtract Extract TableDefinition Collation)))
+  (:import (com.tableausoftware.DataExtract Extract Type TableDefinition Collation)))
 
 (defn extract
   "Open TDE file"
@@ -23,9 +23,20 @@
   {:pre [(vector? columns)]}
   (let [defobj (TableDefinition.)]
     (.setDefaultCollation defobj collation)
-    (print (.toString defobj))
-    )
-  )
+    (dorun
+      (map
+        (fn [col-entry]
+          (if (= Type (type (second col-entry)))
+            (.addColumn defobj (first col-entry) (second col-entry))
+            (.addColumnWithCollation
+              defobj
+              (first col-entry)
+              (nth (second col-entry) 0)
+              (nth (second col-entry) 1))
+            ))
+        (partition 2 columns)))
+    defobj
+    ))
 
 (defn- parse-table-definition
   [defobj]
@@ -40,10 +51,10 @@
    {:pre [(some? tablename) (some? extract)]}
    (let [tableobj
          (if (.hasTable extract tablename)
-           (.open extract tablename)
-           (.addTable tablename (get-table-definition definition)))]
+           (.openTable extract tablename)
+           (.addTable extract tablename (get-table-definition definition)))]
      {:obj    tableobj
-      :def    (parse-table-definition (.getTableDefinion tableobj))}))
+      :def    (or definition (parse-table-definition (.getTableDefinition tableobj)))}))
 
   ([extract tablename]
    (table extract tablename nil)))
