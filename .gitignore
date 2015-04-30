@@ -12,3 +12,6 @@ pom.xml.asc
 .hgignore
 .hg/
 *.log
+*.tde
+*.iml
+/.idea
