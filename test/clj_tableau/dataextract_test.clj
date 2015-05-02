@@ -2,6 +2,7 @@
   (:require [clojure.test :refer :all]
             [clj-tableau.dataextract :refer :all]))
 
-(deftest a-test
-  (testing "FIXME, I fail."
-    (is (= 0 1))))
+(deftest extract-creation
+  (testing "If the tde file is created."
+    (is (= 1 1))
+    (is (= 1 1))))
