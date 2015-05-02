@@ -40,7 +40,7 @@ Opening or creating a TDE file:
       ;
       { :collation Collation/EN_GB
         :columns [ :foo Type/String
-                   :bar Type/Integer])
+                   :bar Type/Integer]})
 
     (with-extract [tdefile "myfile.tde"]
       (->
