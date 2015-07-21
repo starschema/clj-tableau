@@ -1,5 +1,5 @@
 (ns clj-tableau.restapi
-  (:require [clj-http.client :as client]
+  (:require [clj-http.client]
             [clojure.zip :refer [xml-zip]]
             [clojure.data.zip.xml :refer [xml-> xml1-> attr text]]
             [clojure.data.xml :as xml]
@@ -117,7 +117,6 @@
         (log/debug "User " name " already added to this site, ignoring request.")
         (throw e)))))
 
-
 (defn logon-to-server
   "Logon to tableau server by invoking /auth/signin, returns map with token,
   site id and hostname"
@@ -137,6 +136,23 @@
                           :credentials
                           :site (attr :id))
      :host        host}))
+
+(defn signout
+  "Logoff from server"
+  [session]
+  (http "post" session "/auth/signout" {}))
+
+(defmacro with-tableau-rest-api
+  "Initialized a new tableau session and ensures that session will be terminated when
+   the processing goes out of scope. Usage:
+   (with-tableau-rest-api [conn '(host site name password)] ( rest-call(conn p1 p2 )) "
+  [bindings & body]
+  (let [form (bindings 0) params (bindings 1)]
+    `(let [~form (apply logon-to-server ~params)]
+       (try
+         ~@body
+         (finally
+           (signout ~form))))))`
 
 
 (defn get-users-on-site
@@ -161,11 +177,6 @@
               (flatten)
               (apply hash-map)))
           (recur (inc page-number) (conj allusers users)))))))
-
-(defn signout
-  "Logoff from server"
-  [session]
-  (http "post" session "/auth/signout" {}))
 
 (defn get-group-id
   "Return the group-id of a specific group
