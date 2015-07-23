@@ -58,7 +58,7 @@ If you append rows to an existing TDE file then the table definition parameter o
 
 ### Rest & Web Servie API
 
-Rest and Web Service API namespaces are not included in the current release as those need some cleanup. The implementation uses `clj-http` and `data.xml` and will be released soon.
+REST API support is a new addition to clj-tableau. Our implementation uses the `clj-http` and `data.xml` clojure libraries. This new namespace allows to query site, group & user related information supplied by Tableau Server.  
 
 ### Examples
 
