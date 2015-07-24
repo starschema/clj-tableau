@@ -2,7 +2,7 @@
 
 A Clojure library designed to interact with [Tableau](http://tableau.com) APIs including [Data Extract API](http://www.tableausoftware.com/data-extract-api), [REST Server API](http://www.tableau.com/learn/tutorials/on-demand/rest-api) and the [undocumented Web Service API](http://community.tableau.com/groups/dev-community/blog/2013/04/24/using-the-undocumented-rest-api-authentication-and-invocation-of-tableau-server).
 
-https://travis-ci.org/starschema/clj-tableau.svg?branch=master
+[![Build Status](https://travis-ci.org/starschema/clj-tableau.svg?branch=master)](https://travis-ci.org/starschema/clj-tableau)
 
 ## Installation
 
