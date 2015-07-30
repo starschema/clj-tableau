@@ -60,6 +60,56 @@ If you append rows to an existing TDE file then the table definition parameter o
 
 REST API support is a new addition to clj-tableau. Our implementation uses the `clj-http` and `data.xml` clojure libraries. This new namespace allows to query site, group & user related information supplied by Tableau Server.  
 
+The first step is to require the namespace in our REPL:
+
+    (require '[clj-tableau.restapi :refer :all])
+    
+You have two options for logging onto your desired Tableau Server:
+
+##### Using logon-to-server:
+
+    (logon-to-server "http://tableau-server.com" "TestSite" "JohnDoe" "secret")
+    
+##### Using with-tableau-rest-api
+
+    (with-tableau-rest-api [sess ["http://tableau-server.com" "TestSite" "JohnDoe" "secret"]]
+                             (->>
+                               (get-users-on-site sess)))
+
+Most of the functions require you to pass an existing session. For example if you would like to know the list of groups on the server then all you need to do is:
+
+    (get-groups-on-site (logon-to-server "http://tableau-server.com" "TestSite" "JohnDoe" "secret"))
+    
+The same goes for listing all users on the site:
+
+    (get-users-on-site (logon-to-server "http://tableau-server.com" "TestSite" "JohnDoe" "secret"))
+
+For a full list of available functions please refer to:
+
+* tableau-url-for
+* get-zip
+* get-status-from-http-exception
+* http
+* logindata
+* get-users-from-tableau-response
+* updateuserdata
+* adduserdata
+* add-or-remove-user-from-groupdata
+* delete-user-from-site
+* update-user
+* add-user
+* logon-to-server
+* signout
+* get-paginated-resource
+* get-users-on-site
+* get-users-from-group
+* get-groups-on-site
+* get-group-id
+* add-user-to-tableau-group
+* remove-user-from-tableau-group
+* query-user-on-site
+* with-tableau-rest-api
+
 ### Examples
 
 Example codes are located under `/doc` folder. For tableau data extracts you can check the clojure version of the [make order](https://github.com/starschema/clj-tableau/blob/master/doc/examples/make-order.clj) tableau sample.
