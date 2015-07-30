@@ -1,6 +1,14 @@
 language: clojure
 lein: lein2
-script: lein2 do clean, compile
+
+before_script:
+  - wget https://downloads.tableau.com/tssoftware/TDE-API-Linux-64Bit.gz
+  - tar xvzf TDE-API-Linux-64Bit.gz
+  - export PATH=$PATH:$PWD/bin/
+  - cp -f ./lib64/dataextract/Java/* resources/
+  
+script: lein2 do clean, compile, test clj-tableau.dataextract-test
+
 branches:
   only:
     - master
