@@ -5,6 +5,7 @@ before_script:
   - wget https://downloads.tableau.com/tssoftware/TDE-API-Linux-64Bit.gz
   - tar xvzf TDE-API-Linux-64Bit.gz
   - export PATH=$PATH:$PWD/bin/
+  - export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PWD/lib64/dataextract/
   - cp -f ./lib64/dataextract/Java/* resources/
   
 script: lein2 do clean, compile, test clj-tableau.dataextract-test
