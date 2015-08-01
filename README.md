@@ -104,7 +104,9 @@ For a full list of available functions please refer to:
 
 ### Examples
 
-Example codes are located under `/doc` folder. For tableau data extracts you can check the clojure version of the [make order](https://github.com/starschema/clj-tableau/blob/master/doc/examples/make-order.clj) tableau sample. 
+Example codes are located under `/doc` folder. 
+* For tableau data extracts you can check the clojure version of the [make order](https://github.com/starschema/clj-tableau/blob/master/doc/examples/make-order.clj) tableau sample. 
+* For Rest API please check this a [sample group query example.](https://github.com/starschema/clj-tableau/blob/master/doc/examples/tableau-group-inspect.clj)
 
 ## License
 
