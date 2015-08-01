@@ -2,6 +2,8 @@
 
 A Clojure library designed to interact with [Tableau](http://tableau.com) APIs including [Data Extract API](http://www.tableausoftware.com/data-extract-api), [REST Server API](http://www.tableau.com/learn/tutorials/on-demand/rest-api) and the [undocumented Web Service API](http://community.tableau.com/groups/dev-community/blog/2013/04/24/using-the-undocumented-rest-api-authentication-and-invocation-of-tableau-server).
 
+[![Build Status](https://travis-ci.org/starschema/clj-tableau.svg?branch=master)](https://travis-ci.org/starschema/clj-tableau)
+
 ## Installation
 
 `clj-tableau` is available as a Maven artifact from [Clojars](https://clojars.org/clj-tableau):
@@ -58,11 +60,51 @@ If you append rows to an existing TDE file then the table definition parameter o
 
 ### Rest & Web Servie API
 
-Rest and Web Service API namespaces are not included in the current release as those need some cleanup. The implementation uses `clj-http` and `data.xml` and will be released soon.
+REST API support is a new addition to clj-tableau. Our implementation uses the `clj-http` and `data.xml` clojure libraries. This new namespace allows to query site, group & user related information supplied by Tableau Server.  
+
+The first step is to require the namespace in our REPL:
+
+    (require '[clj-tableau.restapi :refer :all])
+    
+You have two options for logging onto your desired Tableau Server:
+
+##### Using logon-to-server:
+
+    (logon-to-server "http://tableau-server.com" "TestSite" "JohnDoe" "secret")
+    
+##### Using with-tableau-rest-api
+
+    (with-tableau-rest-api [sess ["http://tableau-server.com" "TestSite" "JohnDoe" "secret"]]
+                             (->>
+                               (get-users-on-site sess)))
+
+Most of the functions require you to pass an existing session. For example if you would like to know the list of groups on the server then all you need to do is:
+
+    (get-groups-on-site (logon-to-server "http://tableau-server.com" "TestSite" "JohnDoe" "secret"))
+    
+The same goes for listing all users on the site:
+
+    (get-users-on-site (logon-to-server "http://tableau-server.com" "TestSite" "JohnDoe" "secret"))
+
+For a full list of available functions please refer to:
+
+* logon-to-server
+* signout
+* with-tableau-rest-api
+* update-user
+* add-user
+* delete-user-from-site
+* get-users-on-site
+* get-users-from-group
+* get-groups-on-site
+* get-group-id
+* add-user-to-tableau-group
+* remove-user-from-tableau-group
+* query-user-on-site
 
 ### Examples
 
-Example codes are located under `/doc` folder. For tableau data extracts you can check the clojure version of the [make order](https://github.com/starschema/clj-tableau/blob/master/doc/examples/make-order.clj) tableau sample.
+Example codes are located under `/doc` folder. For tableau data extracts you can check the clojure version of the [make order](https://github.com/starschema/clj-tableau/blob/master/doc/examples/make-order.clj) tableau sample. 
 
 ## License
 

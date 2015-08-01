@@ -33,7 +33,7 @@
   [e]
   (get (ex-data e) :status))
 
-(defn http
+(defn- http
   "Perform a http call to tableau server. Host can be hostname or session"
   [method host api-path http-params]
   (get-zip
