@@ -88,21 +88,12 @@ The same goes for listing all users on the site:
 
 For a full list of available functions please refer to:
 
-* tableau-url-for
-* get-zip
-* get-status-from-http-exception
-* http
-* logindata
-* get-users-from-tableau-response
-* updateuserdata
-* adduserdata
-* add-or-remove-user-from-groupdata
-* delete-user-from-site
-* update-user
-* add-user
 * logon-to-server
 * signout
-* get-paginated-resource
+* with-tableau-rest-api
+* update-user
+* add-user
+* delete-user-from-site
 * get-users-on-site
 * get-users-from-group
 * get-groups-on-site
@@ -110,11 +101,10 @@ For a full list of available functions please refer to:
 * add-user-to-tableau-group
 * remove-user-from-tableau-group
 * query-user-on-site
-* with-tableau-rest-api
 
 ### Examples
 
-Example codes are located under `/doc` folder. For tableau data extracts you can check the clojure version of the [make order](https://github.com/starschema/clj-tableau/blob/master/doc/examples/make-order.clj) tableau sample.
+Example codes are located under `/doc` folder. For tableau data extracts you can check the clojure version of the [make order](https://github.com/starschema/clj-tableau/blob/master/doc/examples/make-order.clj) tableau sample. 
 
 ## License
 
