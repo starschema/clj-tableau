@@ -70,7 +70,7 @@
   (xml/emit-str
     (xml/element :tsRequest {}
                  (xml/element :user {:name     name
-                                     :siteRole "Interactor"
+                                     :siteRole "Publisher"
                                      }))))
 
 (defn- add-or-remove-user-from-groupdata
