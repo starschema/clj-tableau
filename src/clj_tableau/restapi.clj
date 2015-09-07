@@ -160,7 +160,7 @@
 
       (if (xml1-> ts-response
                   :pagination)
-        (if (> (* page-size page-number) (read-string (xml1-> ts-response
+        (if (>= (* page-size page-number) (read-string (xml1-> ts-response
                                                               :pagination
                                                               (attr :totalAvailable))))
           (reducer collection)
