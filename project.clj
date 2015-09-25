@@ -1,4 +1,4 @@
-(defproject clj-tableau "1.0.4-SNAPSHOT"
+(defproject clj-tableau "1.0.5-SNAPSHOT"
             :description "Clojure bindings for Tableau APIs (Extract & Rest)"
             :url "http://github.com/starschema/clj-tableau"
             :license {:name "Eclipse Public License"
@@ -13,4 +13,8 @@
                                                               javax.jms/jms
                                                               com.sun.jdmk/jmxtools
                                                               com.sun.jmx/jmxri]]
-                           [org.clojure/tools.nrepl "0.2.10"]])
+                           [org.clojure/tools.nrepl "0.2.10"]
+                           [korma "0.4.2"]
+                           [org.clojure/java.jdbc "0.3.7"]
+                           [postgresql "9.3-1102.jdbc41"]
+                           ])
