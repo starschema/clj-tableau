@@ -43,11 +43,12 @@
 
 (defn- logindata
   "Creates XML request for logon call"
-  [site name password]
+  [site name password userid]
   (xml/emit-str
     (xml/element :tsRequest {}
                  (xml/element :credentials {:name     name
                                             :password password}
+                              (when userid (xml/element :user {:id userid}))
                               (xml/element :site {:contentUrl site})))))
 
 (defn- get-users-from-tableau-response
@@ -115,10 +116,10 @@
 (defn logon-to-server
   "Logon to tableau server by invoking /auth/signin, returns map with token,
   site id and hostname"
-  [host site name password]
+  [host site name password & [userid-to-impersonate]]
   (let [ts-response (http "post" host "/auth/signin"
                           {:multipart [{:name    "title"
-                                        :content (logindata site name password)}]})]
+                                        :content (logindata site name password userid-to-impersonate)}]})]
     (log/debug ts-response)
     {:token       (xml1-> ts-response
                           :credentials (attr :token)
@@ -161,8 +162,8 @@
       (if (xml1-> ts-response
                   :pagination)
         (if (>= (* page-size page-number) (read-string (xml1-> ts-response
-                                                              :pagination
-                                                              (attr :totalAvailable))))
+                                                               :pagination
+                                                               (attr :totalAvailable))))
           (reducer collection)
           (recur (inc page-number) collection))))))
 
