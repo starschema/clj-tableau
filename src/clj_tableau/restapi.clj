@@ -44,12 +44,16 @@
 (defn- logindata
   "Creates XML request for logon call"
   [site name password userid]
-  (xml/emit-str
-    (xml/element :tsRequest {}
-                 (xml/element :credentials {:name     name
-                                            :password password}
-                              (when userid (xml/element :user {:id userid}))
-                              (xml/element :site {:contentUrl site})))))
+  (let [request-body
+        (xml/emit-str
+          (xml/element :tsRequest {}
+                       (xml/element :credentials {:name     name
+                                                  :password password}
+                                    (when userid (xml/element :user {:id userid}))
+                                    (xml/element :site {:contentUrl site}))))]
+    (log/debug request-body)
+    request-body
+    ))
 
 (defn- get-users-from-tableau-response
   [ts-response]
@@ -117,21 +121,23 @@
   "Logon to tableau server by invoking /auth/signin, returns map with token,
   site id and hostname"
   [host site name password & [userid-to-impersonate]]
+  ;(let [ts-response (http "post" host "/auth/signin"
+  ;                        {:body (logindata site name password userid-to-impersonate)})]
   (let [ts-response (http "post" host "/auth/signin"
-                          {:multipart [{:name    "title"
-                                        :content (logindata site name password userid-to-impersonate)}]})]
-    (log/debug ts-response)
-    {:token       (xml1-> ts-response
-                          :credentials (attr :token)
-                          )
-     :content-url (xml1-> ts-response
-                          :credentials
-                          :site (attr :contentUrl)
-                          )
-     :siteid      (xml1-> ts-response
-                          :credentials
-                          :site (attr :id))
-     :host        host}))
+    {:body (logindata site name password userid-to-impersonate)})]
+;)}]}))]
+(log/debug ts-response)
+{:token       (xml1-> ts-response
+                      :credentials (attr :token)
+                      )
+ :content-url (xml1-> ts-response
+                      :credentials
+                      :site (attr :contentUrl)
+                      )
+ :siteid      (xml1-> ts-response
+                      :credentials
+                      :site (attr :id))
+ :host        host} ) )
 
 (defn signout
   "Logoff from server"
