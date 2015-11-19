@@ -121,23 +121,20 @@
   "Logon to tableau server by invoking /auth/signin, returns map with token,
   site id and hostname"
   [host site name password & [userid-to-impersonate]]
-  ;(let [ts-response (http "post" host "/auth/signin"
-  ;                        {:body (logindata site name password userid-to-impersonate)})]
   (let [ts-response (http "post" host "/auth/signin"
-    {:body (logindata site name password userid-to-impersonate)})]
-;)}]}))]
-(log/debug ts-response)
-{:token       (xml1-> ts-response
-                      :credentials (attr :token)
-                      )
- :content-url (xml1-> ts-response
-                      :credentials
-                      :site (attr :contentUrl)
-                      )
- :siteid      (xml1-> ts-response
-                      :credentials
-                      :site (attr :id))
- :host        host} ) )
+                          {:body (logindata site name password userid-to-impersonate)})]
+    (log/debug ts-response)
+    {:token       (xml1-> ts-response
+                          :credentials (attr :token)
+                          )
+     :content-url (xml1-> ts-response
+                          :credentials
+                          :site (attr :contentUrl)
+                          )
+     :siteid      (xml1-> ts-response
+                          :credentials
+                          :site (attr :id))
+     :host        host}))
 
 (defn signout
   "Logoff from server"
