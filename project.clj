@@ -1,4 +1,4 @@
-(defproject clj-tableau "1.0.5-SNAPSHOT"
+(defproject clj-tableau "1.0.6-SNAPSHOT"
             :description "Clojure bindings for Tableau APIs (Extract & Rest)"
             :url "http://github.com/starschema/clj-tableau"
             :license {:name "Eclipse Public License"
