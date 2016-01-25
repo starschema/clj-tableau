@@ -71,11 +71,11 @@
 
 (defn- adduserdata
   "Creates XML request for user creation"
-  [name]
+  [name site-role]
   (xml/emit-str
     (xml/element :tsRequest {}
                  (xml/element :user {:name     name
-                                     :siteRole "Publisher"
+                                     :siteRole site-role
                                      }))))
 
 (defn- add-or-remove-user-from-groupdata
@@ -102,11 +102,11 @@
 
 (defn add-user
   "Adds user to the site. If user already exist, do nothing, otherwise raise exception"
-  [session name]
+  [session name site-role]
   (try
     (let [ts-response (http "post" session "/users/"
                             {:multipart [{:name    "title"
-                                          :content (adduserdata name)}]})]
+                                          :content (adduserdata name site-role)}]})]
       (log/debug ts-response)
       (xml1->
         ts-response
