@@ -96,8 +96,7 @@
 (defn update-user
   "Update users email and fullname "
   [session userid fullname email]
-  (http "put" session (str "/users/" userid) {:multipart [{:name    "title"
-                                                           :content (updateuserdata fullname email)}]}))
+  (http "put" session (str "/users/" userid) {:body (updateuserdata fullname email)}))
 
 
 (defn add-user
@@ -105,8 +104,7 @@
   [session name site-role]
   (try
     (let [ts-response (http "post" session "/users/"
-                            {:multipart [{:name    "title"
-                                          :content (adduserdata name site-role)}]})]
+                            {:body (adduserdata name site-role)})]
       (log/debug ts-response)
       (xml1->
         ts-response
@@ -218,8 +216,7 @@
   (log/debug (str "Adding user " user-id " to group " group-id))
   (try
     (http "post" session (str "groups/" group-id "/users")
-          {:multipart [{:name    "title"
-                        :content (add-or-remove-user-from-groupdata user-id)}]})
+          {:body (add-or-remove-user-from-groupdata user-id)})
     (catch ExceptionInfo e
       (log/debug "Exc: " e)
       (if (= (get-status-from-http-exception e) 409)
